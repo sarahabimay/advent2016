@@ -1,14 +1,6 @@
 defmodule Advent2016Test do
   use ExUnit.Case
 
-  test "starting position is (0,0)" do
-    assert Advent2016.One.start_position == [0, 0]
-  end
-
-  test "starting position faces North" do
-    assert Advent2016.One.start_direction == :N
-  end
-
   test "direction moves from N, W, S, E with L turns" do
     assert Advent2016.One.direction(:N, :L) == :W
     assert Advent2016.One.direction(:E, :L) == :N

@@ -1,7 +1,8 @@
 defmodule Advent2016.One do
-  def start_position, do: [0, 0]
-
-  def start_direction, do: :N
+  def distance(current_position = {[x, y], _}, instructions) do
+    {[x_final, y_final], _} = final_position(current_position, parse(instructions))
+    abs(x_final - x) + abs(y_final - y)
+  end
 
   def parse([]), do: []
   def parse([[rotation | blocks] | rest]) when rotation === 82 do
@@ -9,21 +10,6 @@ defmodule Advent2016.One do
   end
   def parse([[rotation | blocks] | rest]) when rotation === 76 do
     [{:L, List.to_integer(blocks)}] ++ parse(rest)
-  end
-
-  def direction(:N, :R), do: :E
-  def direction(:E, :R), do: :S
-  def direction(:S, :R), do: :W
-  def direction(:W, :R), do: :N
-
-  def direction(:N, :L), do: :W
-  def direction(:E, :L), do: :N
-  def direction(:S, :L), do: :E
-  def direction(:W, :L), do: :S
-
-  def distance(current_position = {[x, y], _}, instructions) do
-    {[x_final, y_final], _} = final_position(current_position, parse(instructions))
-    abs(x_final - x) + abs(y_final - y)
   end
 
   def final_position(current_position, []), do: current_position
@@ -41,6 +27,16 @@ defmodule Advent2016.One do
     new_direction = direction(current_direction, rotation)
     {move(current_position, new_direction, blocks), new_direction}
   end
+
+  def direction(:N, :R), do: :E
+  def direction(:E, :R), do: :S
+  def direction(:S, :R), do: :W
+  def direction(:W, :R), do: :N
+
+  def direction(:N, :L), do: :W
+  def direction(:E, :L), do: :N
+  def direction(:S, :L), do: :E
+  def direction(:W, :L), do: :S
 
   def move([x, y], :E, blocks), do: [ x + blocks, y]
   def move([x, y], :W, blocks), do: [ x + -blocks, y]
